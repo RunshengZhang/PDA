@@ -5,13 +5,12 @@
 function [ placement, area, hpwl ] = place()
 
 %%  0. Set Parameters
-name = '';                              %   e.g. ami33, ami49, hp ...
+testbench = { 'ami33', 'ami49', 'apte', 'hp', 'COMPARATOR_V2_VAR_K2' };
+name = char(testbench(5));
 algo = set_algorithm_param();           %   e.g. population, itermax ...
 
 %%  1. Parse Inputs
-block = read_block( name );              
-net = read_net( name );                  
-[ S.pair, S.self ] = read_sym( name );                   
+[block, net, S] = read_input( name );                 
 
 %%  2. Initial Tree, Placement, Evaluation
 %   2.1 Generate a Population of Random Representative ASF B* tree
