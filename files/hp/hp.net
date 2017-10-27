@@ -1,0 +1,83 @@
+busb1 clkd 0 168 pps 2660 0 cntd 2310 0 
+c/n1 cntu 280 0 nps 3080 126 
+c/n2 cntu 644 0 nps 3080 168 
+c/n3 cntu 980 0 nps 3080 210 
+c/n4 cntu 1344 0 nps 3080 252 
+c/n5 cntu 1680 0 nps 3080 294 
+py3b clkc 1036 252 cmp1 616 210 cmp2 364 210 cmp3 616 210 
+vdda cmp1 980 168 cmp1 0 168 cmp2 980 42 cmp2 0 42 cmp3 0 168 cmp3 980 168 
+bu2 cntu 700 546 
+bu3 cntu 504 546 
+bu0 cntu 1120 546 
+bu1 cntu 924 546 
+bu6 cntu 14 546 
+bu7 cntu 2884 546 
+bu4 cntu 280 546 
+bu5 cntu 84 546 
+b4 cntd 784 0 
+b5 cntd 560 0 
+b6 cntd 364 0 
+vss cntu 3304 126 cntu 0 14 nps 3080 448 nps 0 336 npd 2016 210 npd 0 168 ppd 2016 84 ppd 0 42 pps 3080 84 pps 0 84 cntd 3304 126 cntd 0 14 clkc 1036 210 clkc 0 210 
+b0 cntd 1624 0 
+b1 cntd 1400 0 
+b2 cntd 1204 0 
+b3 cntd 980 0 
+pyb nps 3052 0 nps 2212 0 nps 1204 0 nps 364 0 nps 28 0 clkd 168 700 npd 560 0 npd 140 0 ppd 476 252 ppd 56 252 pps 3024 462 pps 2072 462 pps 1036 462 pps 224 462 pps 28 462 
+rs2 cntu 2324 546 
+busb4 clkd 378 182 pps 2702 0 cntd 2352 0 
+gnd2 pps 980 0 
+gnd1 nps 840 462 
+nc1 nps 700 462 cmp1 0 84 
+bba pps 1316 462 pps 980 462 pps 112 462 
+mc2 clkd 126 0 
+aa4 nps 2912 0 nps 2800 0 nps 2492 0 
+mc1 clkc 0 168 
+vin cmp2 980 84 
+aa1 nps 2996 0 nps 2352 0 
+py2 clkc 980 0 cmp1 476 210 cmp2 504 210 cmp3 476 210 
+aa3 nps 2940 0 nps 2828 0 nps 2436 0 
+aa2 nps 2968 0 nps 2408 0 
+nc2 nps 0 210 cmp1 980 126 
+mk2 ppd 1820 0 ppd 1540 0 pps 3052 462 pps 840 462 pps 728 462 pps 140 462 cntd 3304 336 
+busa8 cntu 2408 0 nps 1498 462 npd 742 252 ppd 742 0 clkc 574 462 
+nnc npd 840 0 npd 0 14 ppd 756 252 ppd 0 14 cmp2 0 126 
+mcd cntd 2100 0 
+rs1 cntd 2800 0 
+bb pps 1288 462 pps 924 462 pps 196 462 
+busa1 cntu 2310 0 nps 1400 462 clkc 476 462 cmp1 308 0 cmp2 448 0 cmp3 434 0 
+busa2 cntu 2324 0 nps 1414 462 clkc 490 462 cmp1 322 0 cmp2 462 0 cmp3 448 0 
+busa3 cntu 2338 0 nps 1428 462 clkc 504 462 cmp1 336 0 cmp2 476 0 cmp3 462 0 
+busa4 cntu 2352 0 nps 1442 462 clkc 518 462 cmp1 350 0 cmp2 490 0 cmp3 476 0 
+busa5 cntu 2366 0 nps 1456 462 npd 700 252 ppd 700 0 clkc 532 462 
+busa6 cntu 2380 0 nps 1470 462 npd 714 252 ppd 714 0 clkc 546 462 
+busa7 cntu 2394 0 nps 1484 462 npd 728 252 ppd 728 0 clkc 560 462 
+c/p2 pps 3080 336 cntd 140 546 
+c/p3 pps 3080 294 cntd 504 546 
+a3 pps 2912 462 pps 2688 462 pps 2296 462 
+a2 pps 2884 462 pps 2660 462 pps 2324 462 
+a5 pps 2968 462 pps 2212 462 
+a4 pps 2940 462 pps 2240 462 
+c/p4 pps 3080 252 cntd 840 546 
+c/p5 pps 3080 210 cntd 1204 546 
+vin1 nps 756 462 
+pya nps 3024 0 nps 2184 0 nps 1232 0 nps 420 0 nps 84 0 clkd 252 700 npd 700 0 npd 420 0 ppd 616 252 ppd 336 252 pps 2996 462 pps 2016 462 pps 1680 462 pps 1008 462 pps 56 462 
+mcu cntu 1624 546 
+vin2 pps 924 0 
+busb3 clkd 378 168 pps 2688 0 cntd 2338 0 
+vssa cmp1 980 42 cmp1 0 42 cmp2 980 168 cmp2 0 168 cmp3 0 42 cmp3 980 42 
+npd/ppd nps 700 0 npd 2016 168 ppd 196 252 
+pc3 npd 980 0 ppd 896 252 cmp2 0 84 
+pc1 pps 840 0 cmp3 0 84 
+py2b clkc 896 0 cmp1 336 210 cmp2 644 210 cmp3 336 210 
+py1 clkc 560 0 cmp1 196 210 cmp2 784 210 cmp3 196 210 
+pc2 pps 0 210 cmp3 980 126 
+bba1 nps 1484 0 nps 1120 0 nps 140 0 
+c/p1 pps 3080 378 cntd 84 546 
+b7 cntd 140 0 
+vdd cntu 3304 504 cntu 0 252 nps 3080 84 nps 0 84 npd 2016 84 ppd 2016 210 ppd 0 168 pps 3080 448 pps 0 308 cntd 3304 504 cntd 0 252 clkc 0 420 clkc 0 14 
+mk1 cntu 3304 336 nps 3066 0 nps 980 0 nps 868 0 nps 280 0 npd 1736 252 npd 1456 252 
+py1b clkc 840 0 cmp1 56 210 cmp2 924 210 cmp3 56 210 
+py3 clkc 1036 336 cmp1 840 210 cmp2 140 210 cmp3 756 210 
+busb2 clkd 0 182 pps 2674 0 cntd 2324 0 
+bb1 nps 1428 0 nps 1064 0 nps 224 0 
+npd/pps npd 1064 0 ppd 2016 168 pps 560 462 
