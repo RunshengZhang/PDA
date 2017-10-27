@@ -28,7 +28,7 @@ i = 1;
 while (feof(fp) == 0)
     line = fgetl(fp);
     temp = string(split(line))';
-    if temp(end)==""
+    if temp(end)==''
         temp(end) = [];
     end
     fieldname = sprintf('net%g', i);
@@ -52,7 +52,7 @@ i = 1;
 while (feof(fp) == 0)
     line = fgetl(fp);
     temp = string(split(line))';
-    if temp(end)==""
+    if temp(end)==''
         temp(end) = [];
     end
     for j = 1:length(temp)
