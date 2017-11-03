@@ -2,7 +2,7 @@
 % Yunyi
 % Oct 21, 2017
 
-function placement = packing(block, tree)
+function placement = B_tree_packing(block, tree)
 
 [block_number, m] = size(block);
 perm = tree(:,1);

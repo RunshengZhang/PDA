@@ -5,11 +5,19 @@
 %   Generate symmetry feasible representative B*-tree from symmetry group information;
 %   Assume vertical axis!
 
-% -----------------------------------------------------
-% Need to use traversal order!!!
-% -----------------------------------------------------
+%%  1. Inputs
+S.pair = [1,2;3,4;5,6];                 %   Symmetry pair block index
+S.self = [7;8;9];                       %   Self symmetry block index
 
-function tree = generate_asf_tree( S )
+block = [   "bk1",2,3;
+            "bk2",2,3;
+            "bk3",1,1;
+            "bk4",1,1;
+            "bk5",2,1;
+            "bk6",2, 1;
+            "bk7",3,4;
+            "bk8",2,2;
+            "bk9",4,1];
 
 %%  2. Initialize Arrays
 R               = [ S.pair(:,2); S.self ];          %   Representative
@@ -55,3 +63,6 @@ for i = 2:block_number
     left_parents = [left_parents, tree(i,1)];
     right_parents = [right_parents, tree(i,1)];
 end
+
+%%  4. Output
+tree
