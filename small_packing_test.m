@@ -10,4 +10,4 @@ asf_tree = [2,0,0;
             6,0,4;
             8,0,2];
         
-[ asf_placement, asf_contour] = ASFTreePacking(block, asf_tree,  S)
+[ asf_placement, asf_contour] = asf_packing(asf_tree, block,  S);

@@ -3,11 +3,11 @@
 % 20/27/2017
 
 
-function [ placement_ASF, contour_ASF ] = ASFTreePacking(block, tree, S)
+function [ placement_ASF, contour_ASF ] = asf_packing(tree, block, S)
 
 % Some parameter might be useful later on
 [block_num , col] = size(block);
-% self_sym_size = size(str2double(S.self),1)
+self_sym_size = length(S.self);
 pair_sym_size = size(str2double(S.pair),1);
 
 
@@ -21,7 +21,7 @@ placement_ASF = zeros(block_num,4);
 % root_node = tree(1,:);
 
 % a matrix recording the self-symmetry information
-self_matrix = str2double(S.self);
+self_array = S.self;
 pair_matrix = str2double(S.pair);
 
 for i = 1:tree_node_num
@@ -31,7 +31,7 @@ for i = 1:tree_node_num
         
         node_index = current_node(1);   %index of this node which can be viewed as id
         
-        if ismember(node_index, self_matrix)    % then current is a self-sym block
+        if ismember(node_index, self_array)    % then current is a self-sym block
             placement_ASF(node_index,:) = [0,0,str2double(block(node_index,2))/2 ,str2double(block(node_index,3))];
             % we place the information of a block in the form as [x,y,width,height] at index at node_index
             contour_ASF = [contour_ASF ; 0 , str2double(block(node_index,2))/2 , str2double(block(node_index,3)) ];
@@ -139,7 +139,7 @@ for i = 1:tree_node_num
 
         node_x = parent_x;     % this node's x coordinate must be same as his parent
         node_width = str2double(block(node_index,2));
-        if ismember(node_index,self_matrix)
+        if ismember(node_index,self_array)
             node_width = node_width / 2 ;
         end
 
@@ -237,7 +237,7 @@ for i = 1:tree_node_num
     disp('placement')
     placement_ASF
     % disp('contour looks like')
-    % sortrows(contour_ASF,1)
+    sortrows(contour_ASF,1)
     
     
     
@@ -260,6 +260,18 @@ for i = 1 : pair_sym_size
 
 end
 
+if self_sym_size > 0
+
+    for i = 1 : self_sym_size
+
+        self_node_index = self_array(i);
+
+        placement_ASF(self_node_index,:) = [-( placement_ASF(self_node_index,3) ) + max_x_coord , placement_ASF(self_node_index,2) , 2 * placement_ASF(self_node_index,3) , placement_ASF(self_node_index,4) ];
+
+    end
+
+end
+
 contour_ASF_update = [];
 
 for i = 1 : size(contour_ASF,1)
@@ -273,6 +285,51 @@ for i = 1 : size(contour_ASF,1)
 end
 
 
-
-placement_ASF
 contour_ASF = sortrows(contour_ASF_update,1)
+placement_ASF
+
+% merge adjacent contour segment which has same height
+
+contour_ASF_update = [];
+
+i = 1;
+while(i <= size(contour_ASF,1))
+
+
+    if i<size(contour_ASF,1) && contour_ASF(i,3) == contour_ASF(i+1,3)
+        start_x = contour_ASF(i,1);
+        % y_merge = contour_ASF(i,3)
+
+        while(i<size(contour_ASF,1) && contour_ASF(i,3) == contour_ASF(i+1,3) )
+            i = i + 1;
+
+
+        end
+
+        end_x = contour_ASF(i,2);
+
+        contour_ASF_update = [contour_ASF_update; start_x , end_x , contour_ASF(i,3) ];
+        
+    else 
+
+        contour_ASF_update = [contour_ASF_update ; contour_ASF(i,:)];
+
+
+
+    end
+
+    i = i + 1;
+
+
+
+
+end
+
+
+
+
+
+
+contour_ASF = sortrows(contour_ASF_update,1)
+placement_ASF
+
