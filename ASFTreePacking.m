@@ -11,6 +11,8 @@ function [ placement_ASF, contour_ASF ] = ASFTreePacking(block, tree, S)
 pair_sym_size = size(str2double(S.pair),1);
 
 
+tree_node_num = size(tree,1);
+
 % The return result we want
 contour_ASF = [];
 placement_ASF = zeros(block_num,4);
@@ -22,7 +24,7 @@ placement_ASF = zeros(block_num,4);
 self_matrix = str2double(S.self);
 pair_matrix = str2double(S.pair);
 
-for i = 1:block_num - pair_sym_size
+for i = 1:tree_node_num
   
     current_node = tree(i,:)
     if current_node(2)== 0 && current_node(3) == 0   % This is a root!

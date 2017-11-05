@@ -5,10 +5,9 @@ name = char(testbench(3));
 
 [block, net, S] = read_input( name ); 
 
-asf_tree = [9,0,0;
-            4,9,0;
+asf_tree = [2,0,0;
+            4,2,0;
             6,0,4;
-            8,0,9;
-            2,0,8];
+            8,0,2];
         
-[ asf_placement, asf_contour] = ASFTreePacking(block, asf_tree,  S);
+[ asf_placement, asf_contour] = ASFTreePacking(block, asf_tree,  S)
