@@ -1,0 +1,102 @@
+% Generate Random HB* Tree
+% Yunyi
+% Nov 5
+
+%function h_tree = generate_h_tree( asf_contour, block, S )
+
+% Input arguments:
+%   asf_contour: double [n, 3, NP];
+%   block: string [block_number, 3];
+%   S: struct
+
+asf_contour = [0,1,1;1,4,2;3,5,1];
+block = [1,1,1;2,1,1;3,1,1;4,1,1;,5,1,1;,6,1,1;,7,1,1;8,1,1;9,1,1;10,1,1;11,1,1;12,1,1;];
+S.pair = [1,2;5,6];
+S.pair = string(S.pair);
+S.self = [7,8];
+S.self = string(S.self);
+
+%%  1. Obtain Symmetry Blocks
+%   Symmetry blocks are skipped in HB* tree generation, since they are in hierarchy node
+S.pair = reshape(S.pair, [1, length(S.pair(:,1))*2]);
+S.self = reshape(S.self, [1, length(S.self)]);
+sym = str2double([S.pair, S.self]);
+
+%%  2. Initialize Arrays
+[contour_number, ~, NP] = size(asf_contour);
+[block_number, ~]       = size(block);
+block_number            = block_number + 1;                     %   adding the hierarchy node
+perm                    = randperm(block_number);
+tree                    = zeros(block_number, 3);
+contour_tree            = zeros(contour_number, 3);
+left_parents            = [];
+right_parents           = [];
+
+%%  3. Generate Random Tree
+    
+    %   3.1 Normal Tree
+    for i = 1:block_number
+        tree(i,1) = perm(i);       
+        if ~ismember(perm(i), sym)
+            %   Non-symmetry block: Decide right-parent or left-parent randomly            
+            if (randi([0,1],1) == 1)           
+                if isempty(left_parents) && isempty(right_parents)
+                    tree(i,2:3) = [0, 0];                       %   Root
+                else
+                    tree(i, 2) = 0;                             %   Only left-parent
+                    index = randi(length(left_parents));        %   Pick randomly from feasible parents
+                    tree(i, 3) = left_parents(index);
+                    left_parents(index:end) = [];               %   Delete succeedings from feasible left-parent list
+                    index = find(right_parents==tree(i,3));
+                    if isempty(index)
+                        index = 1;                              %   Clear all
+                    end
+                    right_parents(index:end) = [];              %   Delete succeedings from feasible right-parent list
+                end
+            else (randi([0,1],1) == 0)
+                if isempty(left_parents) && isempty(right_parents)
+                    tree(i,2:3) = [0, 0];                       %   Root
+                else
+                    tree(i, 3) = 0;                             %   Only right-parent
+                    index = randi(length(right_parents));       %   Pick randomly from feasible parents
+                    tree(i, 2) = right_parents(index);
+                    right_parents(index) = [];                  %   Delete from feasible right-parent list
+                end
+            end
+
+            %   Update feasible parent lists
+            right_parents = [right_parents, tree(i,1)];
+            if tree(i,1) == block_number
+                %   Hierarchy node
+                contour_node = (-contour_number):-1;            %   Contour node ID starts from -1, -2 ...
+                contour_node = fliplr(contour_node);
+                left_parents = [left_parents, contour_node];    %   Add contour nodes as feasible left parents
+            else
+                left_parents = [left_parents, tree(i,1)];
+            end 
+        else
+            %   Symmetry block
+            tree(i,2:3) = [0, 0];                               %   Delete afterwards
+        end
+    end
+    
+    %   3.2 Delete Symmetry Blocks
+    for i = 0:block_number-1
+        if ismember(tree(block_number-i,1), sym)
+            tree(block_number-i,:) = [];
+        end
+    end
+
+    %   3.3 Contour Tree
+    %       Generate Contour Tree
+    contour_tree(:,1) = contour_node;
+    contour_tree(1,2:3) = [0, block_number];
+    contour_tree(2:end,2:3) = [contour_tree(1:(end-1), 1), zeros(contour_number-1,1)];
+
+    %       Insert Contour Tree
+    index = find(tree(:,3)<0, 1);
+    if ~isempty(index)
+        tree = [tree(1:(index-1),:); contour_tree; tree(index:end,:)];
+    end
+    
+    h_tree = tree;

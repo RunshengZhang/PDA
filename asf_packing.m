@@ -3,10 +3,10 @@
 % 20/27/2017
 
 
-function [ placement_ASF, contour_ASF ] = ASFTreePacking(block, tree, S)
+function [ placement_ASF, contour_ASF ] = asf_packing(block, tree, S)
 
 % Some parameter might be useful later on
-[block_num , col] = size(block);
+[block_num , ~] = size(block);
 % self_sym_size = size(str2double(S.self),1)
 pair_sym_size = size(str2double(S.pair),1);
 
@@ -81,7 +81,7 @@ for i = 1:block_num - pair_sym_size
         
         % All correlated contour segment should be extracted in contour_ASF_manipulate
 
-        [len,width] = size(contour_ASF_manipulate);
+        [len,~] = size(contour_ASF_manipulate);
         contour_ASF_post_manipulate = [];
         % what is contour_ASF_post_manipulate: if the current block has some x-overlap with some contour lines, contour_ASF_post_manipulate will not be empty
         % This matrix will save all "new" contour segment after contour calculation

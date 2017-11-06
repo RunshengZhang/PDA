@@ -5,8 +5,8 @@
 function [ placement, area, hpwl ] = place()
 
 %%  0. Set Parameters
-testbench = { 'ami33', 'ami49', 'apte', 'hp', 'COMPARATOR_V2_VAR_K2' };
-name = char(testbench(5));
+testbench = { 'ami33', 'ami49', 'apte', 'COMPARATOR_V2_VAR_K2', 'hp' };
+name = char(testbench(3));
 algo = set_algorithm_param();           %   e.g. population, itermax ...
 
 %%  1. Parse Inputs
@@ -17,10 +17,10 @@ algo = set_algorithm_param();           %   e.g. population, itermax ...
 asf_tree = generate_asf_tree( S, algo );
 
 %   2.2 Pack ASF B* tree
-[ asf_placement, asf_contour ] = asf_packing( asf_tree, block );
+[ asf_placement, asf_contour ] = asf_packing( block, asf_tree, S );
 
 %   2.3 Generate Random HB* tree
-h_tree = generate_h_tree( asf_contour, block );
+h_tree = generate_h_tree( asf_contour, block, S );
 
 %   2.4 Pack HB* tree
 h_placement = h_packing( h_tree, asf_placement, block );
