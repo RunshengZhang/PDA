@@ -7,8 +7,6 @@
 
 function asf_tree = generate_asf_tree( S, algo )
 
-asf_tree = struct();
-
 for n = 1:algo.NP
 
     %%  1. Initialize Arrays
@@ -61,6 +59,5 @@ for n = 1:algo.NP
         right_parents = [right_parents, tree(i,1)];
     end
 
-    fieldname = sprintf('pop%g', n);
-    asf_tree.(fieldname) = tree;
+    asf_tree(:,:,n) = tree;
 end

@@ -17,7 +17,7 @@ algo = set_algorithm_param();           %   e.g. population, itermax ...
 asf_tree = generate_asf_tree( S, algo );
 
 %   2.2 Pack ASF B* tree
-[ asf_placement, asf_contour ] = asf_packing( block, asf_tree, S );
+[ asf_placement, asf_contour ] = asf_packing( asf_tree, block, S );
 
 %   2.3 Generate Random HB* tree
 h_tree = generate_h_tree( asf_contour, block, S );

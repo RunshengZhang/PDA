@@ -2,25 +2,13 @@
 % Yunyi
 % Nov 5
 
-%function h_tree = generate_h_tree( asf_contour, block, S )
-
-% Input arguments:
-%   asf_contour: double [n, 3, NP];
-%   block: string [block_number, 3];
-%   S: struct
-
-asf_contour = [0,1,1;1,4,2;3,5,1];
-block = [1,1,1;2,1,1;3,1,1;4,1,1;,5,1,1;,6,1,1;,7,1,1;8,1,1;9,1,1;10,1,1;11,1,1;12,1,1;];
-S.pair = [1,2;5,6];
-S.pair = string(S.pair);
-S.self = [7,8];
-S.self = string(S.self);
+function h_tree = generate_h_tree( asf_contour, block, S )
 
 %%  1. Obtain Symmetry Blocks
 %   Symmetry blocks are skipped in HB* tree generation, since they are in hierarchy node
 S.pair = reshape(S.pair, [1, length(S.pair(:,1))*2]);
 S.self = reshape(S.self, [1, length(S.self)]);
-sym = str2double([S.pair, S.self]);
+sym = [S.pair, S.self];
 
 %%  2. Initialize Arrays
 [contour_number, ~, NP] = size(asf_contour);
@@ -33,7 +21,7 @@ left_parents            = [];
 right_parents           = [];
 
 %%  3. Generate Random Tree
-    
+for n = 1:NP    
     %   3.1 Normal Tree
     for i = 1:block_number
         tree(i,1) = perm(i);       
@@ -53,7 +41,7 @@ right_parents           = [];
                     end
                     right_parents(index:end) = [];              %   Delete succeedings from feasible right-parent list
                 end
-            else (randi([0,1],1) == 0)
+            elseif (randi([0,1],1) == 0)
                 if isempty(left_parents) && isempty(right_parents)
                     tree(i,2:3) = [0, 0];                       %   Root
                 else
@@ -99,4 +87,5 @@ right_parents           = [];
         tree = [tree(1:(index-1),:); contour_tree; tree(index:end,:)];
     end
     
-    h_tree = tree;
+    h_tree(:,:,n) = tree;
+end

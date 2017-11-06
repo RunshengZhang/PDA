@@ -2,13 +2,12 @@
 % Runsheng
 % 20/27/2017
 
-
 function [ placement_ASF, contour_ASF ] = asf_packing(tree, block, S)
 
 % Some parameter might be useful later on
-[block_num , col] = size(block);
+[block_num , ~] = size(block);
 self_sym_size = length(S.self);
-pair_sym_size = size(str2double(S.pair),1);
+[pair_sym_size,~] = size(S.pair);
 
 
 tree_node_num = size(tree,1);
@@ -22,7 +21,7 @@ placement_ASF = zeros(block_num,4);
 
 % a matrix recording the self-symmetry information
 self_array = S.self;
-pair_matrix = str2double(S.pair);
+pair_matrix = S.pair;
 
 for i = 1:tree_node_num
   
@@ -60,7 +59,7 @@ for i = 1:tree_node_num
         node_height = str2double(block(node_index,3));
         
         % Now determine the y place to put the cell
-        [contour_entry, contour_col] = size(contour_ASF);
+        [contour_entry, ~] = size(contour_ASF);
         
         y_max= 0;
         contour_ASF_temp_new = [];
@@ -167,7 +166,7 @@ for i = 1:tree_node_num
 
         else            % current node is wider than parent, which means, need to have more than one contour segment get involved
 
-            [contour_entry, contour_col] = size(contour_ASF);
+            [contour_entry, ~] = size(contour_ASF);
 
 
         

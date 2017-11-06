@@ -68,6 +68,12 @@ while (feof(fp) == 0)
 end
 S.pair = reshape(S.pair, [2,length(S.pair)/2]);
 S.pair = S.pair';
+
+S.pair = str2double(S.pair);                        %   Convert string to double
+if ~isempty(S.self)
+    S.self = str2double(S.self);
+end
+
 fclose(fp);
 fprintf('Read in symmetry information ... Successful\n');
 
