@@ -17,13 +17,13 @@ algo = set_algorithm_param();           %   e.g. population, itermax ...
 asf_tree = generate_asf_tree( S, algo );
 
 %   2.2 Pack ASF B* tree
-[ asf_placement, asf_contour ] = asf_packing( asf_tree, block, S );
+[ asf_placement, asf_contour_top, asf_contour_bottom ] = asf_packing( asf_tree, block, S );
 
 %   2.3 Generate Random HB* tree
-h_tree = generate_h_tree( asf_contour, block, S );
+h_tree = generate_h_tree( asf_contour_top, block, S );
 
 %   2.4 Pack HB* tree
-h_placement = h_packing( h_tree, asf_placement, block );
+h_placement = h_packing( h_tree, asf_placement, asf_contour_top, asf_contour_bottom, block );
 
 %   2.5 Evaluate Cost
 [ area, hpwl ] = evaluate( h_placement, net );
@@ -32,8 +32,8 @@ h_placement = h_packing( h_tree, asf_placement, block );
 for i = 1:algo.itermax
     %   3.1 Update Population (Crossover, Mutation)
     asf_tree_new = update_asf_tree( asf_tree, algo );                               %   ASF tree
-    [ asf_placement_new, asf_contour_new ] = asf_packing( asf_tree_new, block );    %   ASF Packing
-    h_tree_new = update_h_tree( h_tree, asf_contour_new, block, algo );             %   HB tree
+    [ asf_placement_new, asf_contour_top_new, asf_contour_bottom_new ] = asf_packing( asf_tree_new, block, S );    %   ASF Packing
+    h_tree_new = update_h_tree( h_tree, asf_contour_top_new, block, algo );         %   HB tree
     h_placement_new = h_packing( h_tree_new, asf_placement_new, block );            %   HB Packing
 
     %   3.2 Evaluate Cost
@@ -44,4 +44,4 @@ for i = 1:algo.itermax
 end
 
 %%  4. Final Result, Summary, and Plotting
-[ placement, area, hpwl, summary ] = final( h_placement, area, hpwl );
+[ placement, area_best, hpwl_best ] = final( h_placement, area, hpwl );

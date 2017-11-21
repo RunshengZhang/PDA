@@ -10,6 +10,7 @@ function [ tree, placement, area, hpwl ] = selection( tree, placement, area, hpw
 DS = algo.DS;
 AP = algo.AP;
 NP = algo.NP;
+update = zeros(1,NP);
 
 %%  1. Compute Area Constraint
 area_const = block_area / ( 1 - DS/100 );
