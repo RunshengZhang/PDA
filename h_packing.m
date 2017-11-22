@@ -8,17 +8,22 @@ function [h_placement] = h_packing( h_tree, asf_placement, asf_contour_top, asf_
 
     % 1. Global Initialization
 
-    [numberOfBlock,~,NP] = size(asf_placement);
+    numberOfBlock = size(block,1);
+    [~,~,NP] = size(h_tree);
+    h_placement = struct();
     
     % Start the iteration of NP
     
     for n = 1:NP
         
+        NPname{n} = sprintf('NP%d', n);
+
+
         % Local Initilzation
-        h_tree_curNP = h_tree(:,:,n);
-        asf_placement_curNP = asf_placement(:,:,n);
-        asf_contour_top_curNP = asf_contour_top(:,:,n);
-        asf_contour_bottom_curNP = asf_contour_bottom(:,:,n);
+        h_tree_curNP = h_tree(:,:,n);           % &&&&&&&&&&&&&&&&  might be changed! &&&&&&&&&&&&&&&&&
+        asf_placement_curNP = asf_placement.(NPname{n});
+        asf_contour_top_curNP = asf_contour_top.(NPname{n});
+        asf_contour_bottom_curNP = asf_contour_bottom.(NPname{n});
 
         asf_placement_curNP_sft = [];           % shifted asf_placement, getting assignment when figuring out where the hierachy node locate
         asf_contour_bottom_curNP_sft = [];      % Shifted contour, getting assignment when we figuring out where the hierachy node locate
@@ -84,7 +89,7 @@ function [h_placement] = h_packing( h_tree, asf_placement, asf_contour_top, asf_
                         % since hierachy node's coord info is different style, using contour to capture the right most convex point is the same
                         node_x = asf_contour_top_curNP_sft(size(asf_contour_top_curNP_sft,1),2);
                     else
-                        node_x = placement_h_curNP(node_index,1) + placement_h_curNP(node_index,3);
+                        node_x = placement_h_curNP(parent_index,1) + placement_h_curNP(parent_index,3);
                     end
 
                     % contour_related is the matrix which is a subset containing all contour which has overlap with the current node
@@ -153,7 +158,7 @@ function [h_placement] = h_packing( h_tree, asf_placement, asf_contour_top, asf_
 
 
                 elseif node_index > numberOfBlock                   % Out-of-boundary node, which is the hierachy node
-                    
+
                     node_x = placement_h_curNP(parent_index,1) + placement_h_curNP(parent_index,3);
                     node_width = max(asf_contour_top_curNP(:,2));
                     node_height = max(asf_contour_top_curNP(:,3));
@@ -323,7 +328,7 @@ function [h_placement] = h_packing( h_tree, asf_placement, asf_contour_top, asf_
 
                     for j = 1 : size(asf_contour_bottom_curNP_sft)
 
-                        bottom_entry = asf_contour_bottom_curNP_sft(j,:)
+                        bottom_entry = asf_contour_bottom_curNP_sft(j,:);
                         cur_bottom_enry_overlap_index = intersect(  find(contour_h_curNP(:,1) < bottom_entry(2)) , find(contour_h_curNP(:,2) > bottom_entry(1)) );
 
                         if size(cur_bottom_enry_overlap_index,1) == 0
@@ -433,6 +438,6 @@ function [h_placement] = h_packing( h_tree, asf_placement, asf_contour_top, asf_
 
         end
 
-        h_placement(:,:,n) = placement_h_curNP;
+        h_placement.(NPname{n}) = placement_h_curNP;
 
     end
