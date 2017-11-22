@@ -6,7 +6,7 @@ clc;
 
 %%  0. Set Parameters
 testbench = { 'ami33', 'ami49', 'apte', 'COMPARATOR_V2_VAR_K2', 'hp' };
-name = char(testbench(3));
+name = char(testbench(2));
 algo = set_algorithm_param();           %   e.g. population, itermax ...
 
 %%  1. Parse Inputs
@@ -20,5 +20,8 @@ asf_tree = generate_asf_tree( S, algo );
 [ asf_placement, asf_contour_top, asf_contour_bottom ] = asf_packing( asf_tree, block, S );
 
 %   2.3 Generate Random HB* tree
-%h_tree = generate_h_tree( asf_contour, block, S );
+%h_tree = generate_h_tree( asf_contour_top, block, S );
+
+%   2.4 Pack HB* tree
+%h_placement = h_packing( h_tree, asf_placement,asf_contour_top, asf_contour_bottom, block );
 
