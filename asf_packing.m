@@ -14,9 +14,11 @@ self_sym_size = length(S.self);
 NP = size(tree,3);
 
 
-tree_node_num = size(tree,1);
 
 
+asf_placement = struct();
+asf_contour_top = struct();
+asf_contour_bottom = struct();
 
 
 
@@ -25,7 +27,7 @@ for np_index = 1: NP
 
     % ********************************1. Initialization*********************************
 
-
+   NPname{np_index} = sprintf('NP%d',np_index);
 
     % The return result we want
     contour_asf_top_eachNP = [];
@@ -39,16 +41,15 @@ for np_index = 1: NP
     self_array = S.self;
     pair_matrix = S.pair;
 
+    current_tree = tree(:,:,np_index);
 
-
-
-
+    tree_node_num = size(current_tree,1);
 
 
 
     for i = 1:tree_node_num
     
-        current_node = tree(i,:)
+        current_node = current_tree(i,:);
 
         % **************************** &&&&&&&&  2. First round, build placement and contour &&&&&&&&&&&&&& ***********************
 
@@ -431,9 +432,14 @@ for np_index = 1: NP
 
     
 
-    asf_contour_top(:,:,np_index) = contour_asf_top_eachNP;
-    asf_contour_bottom(:,:,np_index) = contour_asf_bottom_eachNP;
-    asf_placement(:,:,np_index) = placement_asf_eachNP;
+    %asf_contour_top(:,:,np_index) = contour_asf_top_eachNP;
+    %asf_contour_bottom(:,:,np_index) = contour_asf_bottom_eachNP;
+    %asf_placement(:,:,np_index) = placement_asf_eachNP;
+
+    asf_placement.(NPname{np_index}) = placement_asf_eachNP;
+    asf_contour_top.(NPname{np_index}) = contour_asf_top_eachNP;
+    asf_contour_bottom.(NPname{np_index}) = contour_asf_bottom_eachNP;
+
 
 
 end
