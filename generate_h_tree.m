@@ -41,7 +41,7 @@ for n = 1:NP
                     end
                     right_parents(index:end) = [];              %   Delete succeedings from feasible right-parent list
                 end
-            elseif (randi([0,1],1) == 0)
+            else
                 if isempty(left_parents) && isempty(right_parents)
                     tree(i,2:3) = [0, 0];                       %   Root
                 else

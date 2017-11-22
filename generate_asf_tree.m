@@ -1,6 +1,11 @@
 % Generate Representative B*-tree
 % Yunyi
 
+% Change Log:
+%   Nov 19: Take into account choosing representative block randomly.
+%           The fourth column denotes representative block: choosing from 1 and 2.
+%   Nov 20: Change parent updating procedure for self symmetry node
+
 % Description:
 %   Generate symmetry feasible representative B*-tree from symmetry group information;
 %   Assume vertical axis!
@@ -9,20 +14,30 @@ function asf_tree = generate_asf_tree( S, algo )
 
 for n = 1:algo.NP
 
-    %%  1. Initialize Arrays
-    R               = [ S.pair(:,2); S.self ];          %   Representative
-    block_number    = length(R);        
+    %%  1. Choose Representative Randomly
+    clear R;
+    [symmetry_pair_number,~] = size(S.pair);
+    represent = randi([1,2], [1,symmetry_pair_number]);     %   Random symmetry pair representative
+    for i = 1:symmetry_pair_number
+        R(i,1:2) = [S.pair(i, represent(i)), represent(i)]; %   Second column is 1 or 2 for pairs
+    end
+    R_self = [S.self', ones(length(S.self), 1)];        %   Second column is 1 for selfs
+    R = [R; R_self];                                    %   Add self symmetry
+
+    %%  2. Initialize Arrays
+    [block_number,~]= size(R);        
     perm            = randperm(block_number);           %   Random permutation
-    tree(1,:)       = [R(perm(1)), 0, 0];               %   Root of tree
+    tree(1,:)       = [R(perm(1),1),0,0,R(perm(1),2)];  %   Root of tree
     left_parents    = [tree(1,1)];                      %   Feasible left-parent list
     right_parents   = [tree(1,1)];                      %   Feasible right-parent list
     right_most      = [tree(1,1)];                      %   Right-most node
 
-    %%  2. Generate Symmetry-Feasible Tree
+    %%  3. Generate Symmetry-Feasible Tree
     %   Use reverse tree structure: [self, right-parent, left-parent]
     for i = 2:block_number
-        tree(i, 1) = R(perm(i));
-        if sum(ismember(S.pair(:,2), tree(i, 1))) == 1
+        tree(i, 1) = R(perm(i), 1);
+        tree(i, 4) = R(perm(i), 2);
+        if ismember(tree(i, 1), S.pair)
             %   Current representative is a symmetry pair
             %   Decide right-parent or left-parent randomly
             if (randi([0,1],1) == 1)
@@ -51,7 +66,13 @@ for n = 1:algo.NP
             tree(i, 2) = 0;                             %   No right-parent
             tree(i, 3) = right_most;                    %   Left-parent is right-most node
             right_most = tree(i, 1);                    %   Update right-most node
-            left_parents(left_parents==tree(i, 3)) = []; %   Update left-parent
+            index = find(ismember(left_parents, tree(i, 3)));
+            left_parents(index:end) = [];
+            index = find(right_parents == tree(i, 3));
+            if isempty(index)
+                index = 1;                              
+            end
+            right_parents(index:end) = [];
         end
 
         %   Update feasible parent lists

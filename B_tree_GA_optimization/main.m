@@ -46,7 +46,7 @@ placement = packing( tree, block );
 %%  3. Optimization Loop using Single Objective GA
 for iteration = 1:algo.itermax
     %   3.1 Update Population (Crossover, Mutation)
-    tree_new = update_tree( tree, algo );                             
+    tree_new = update_tree( tree, algo, hpwl );                             
     placement_new= packing( tree_new, block );    
 
     %   3.2 Evaluate Cost
