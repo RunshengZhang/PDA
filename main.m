@@ -31,9 +31,9 @@ h_placement = h_packing( h_tree, asf_placement, asf_contour_top, asf_contour_bot
 %%  3. Optimization Loop using Single Objective GA
 for i = 1:algo.itermax
     %   3.1 Update Population (Crossover, Mutation)
-    asf_tree_new = update_asf_tree( asf_tree, algo );                               %   ASF tree
+    asf_tree_new = update_asf_tree( asf_tree, algo, hpwl, S );                      %   ASF tree
     [ asf_placement_new, asf_contour_top_new, asf_contour_bottom_new ] = asf_packing( asf_tree_new, block, S );    %   ASF Packing
-    h_tree_new = update_h_tree( h_tree, asf_contour_top_new, block, algo );         %   HB tree
+    h_tree_new = update_h_tree( h_tree, asf_contour_top_new, block, algo, hpwl );   %   HB tree
     h_placement_new = h_packing( h_tree_new, asf_placement_new, block );            %   HB Packing
 
     %   3.2 Evaluate Cost

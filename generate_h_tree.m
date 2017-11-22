@@ -11,17 +11,20 @@ S.self = reshape(S.self, [1, length(S.self)]);
 sym = [S.pair, S.self];
 
 %%  2. Initialize Arrays
-[contour_number, ~, NP] = size(asf_contour);
+name                    = fieldnames(asf_contour);              %   A cell array with length NP
 [block_number, ~]       = size(block);
-block_number            = block_number + 1;                     %   adding the hierarchy node
-perm                    = randperm(block_number);
-tree                    = zeros(block_number, 3);
-contour_tree            = zeros(contour_number, 3);
-left_parents            = [];
-right_parents           = [];
+block_number            = block_number + 1;                     %   Adding the hierarchy node
+h_tree                  = struct();
 
 %%  3. Generate Random Tree
-for n = 1:NP    
+for n = 1:NP
+    [contour_number, ~] = size(asf_contour.(name{n}));          %   Current member's contour number
+    perm                = randperm(block_number);               %   Current member's block permutation
+    tree                = zeros(block_number, 3);
+    contour_tree        = zeros(contour_number, 3);
+    left_parents        = [];
+    right_parents       = [];
+
     %   3.1 Normal Tree
     for i = 1:block_number
         tree(i,1) = perm(i);       
@@ -87,5 +90,5 @@ for n = 1:NP
         tree = [tree(1:(index-1),:); contour_tree; tree(index:end,:)];
     end
     
-    h_tree(:,:,n) = tree;
+    h_tree.(name{n}) = tree;
 end
