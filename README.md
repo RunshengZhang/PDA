@@ -7,5 +7,9 @@ Nov 21
   1. Update "main.m" according to the function description table;
   2. Add new feature in "generate_asf_tree.m": allow choosing representative randomly;
   3. Fix error in "generate_h_tree.m";
-  4. upload "update_asf_tree.m" and its subfunction to the repository.
+  4. Upload "update_asf_tree.m" and its subfunction to the repository.
   
+Nov 26
+  1. Upload "update_h_tree.m" and its subfunction to the repository;
+  2. Change asf_tree data type to struct;
+  3. Fix corner case in "generate_h_tree.m".
