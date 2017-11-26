@@ -4,13 +4,16 @@
 % Change Log:
 %   Nov 19: Take into account choosing representative block randomly.
 %           The fourth column denotes representative block: choosing from 1 and 2.
-%   Nov 20: Change parent updating procedure for self symmetry node
+%   Nov 20: Change parent updating procedure for self symmetry node.
+%   Nov 26: Change data type of "asf_tree" to struct.
 
 % Description:
 %   Generate symmetry feasible representative B*-tree from symmetry group information;
 %   Assume vertical axis!
 
 function asf_tree = generate_asf_tree( S, algo )
+
+asf_tree = struct();
 
 for n = 1:algo.NP
 
@@ -80,5 +83,6 @@ for n = 1:algo.NP
         right_parents = [right_parents, tree(i,1)];
     end
 
-    asf_tree(:,:,n) = tree;
+    name = sprintf('NP%d', n);
+    asf_tree.(name) = tree;
 end

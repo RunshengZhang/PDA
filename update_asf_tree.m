@@ -2,6 +2,9 @@
 % Nov 19
 % Yunyi
 
+% Change Log:
+%   Nov 26: Change data type of "asf_tree" and "asf_tree_new" to struct.
+
 % Description:
 %   Update ASF representative B* tree with the new crossover operator; First parent is the current member
 %   in population, second parent is chosen based on HPWL ranking. It works for testbench "apte", 
@@ -17,9 +20,9 @@
 
 function asf_tree_new = update_asf_tree( asf_tree, algo, hpwl, S )
 
-[block_number, ~, ~] = size(asf_tree);
+name = fieldnames(asf_tree);
 NP = algo.NP;
-asf_tree_new = zeros(block_number, 4, NP);                  %   Four columns: self, r-p, l-p, representative
+asf_tree_new = struct();
 
 for n = 1:NP
 
@@ -27,6 +30,7 @@ for n = 1:NP
     [parent_1, parent_2] = select_parents( asf_tree, hpwl, n );
 
     %%   2. Select Subtree from the Second Parent
+    [block_number, ~] = size(parent_2);
     index_start = randi([2,block_number]);                  %   Select a non-root node
     perm = parent_2(1:(index_start-1), 1);                  %   Previous nodes
     index_2 = find(ismember(parent_2((index_start+1):end, 2), perm),1);
@@ -154,5 +158,5 @@ for n = 1:NP
     end
 
     offspring = [offspring; newtree];
-    asf_tree_new(:,:,n) = offspring;
+    asf_tree_new.(name{n}) = offspring;
 end
