@@ -437,7 +437,7 @@ function [h_placement] = h_packing( h_tree, asf_placement, asf_contour_top, asf_
             end
 
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%plot_Debug_hpacking&&&&&&&&&&&&&
-            plotpacking(placement_h_curNP)
+            %plotpacking(placement_h_curNP)
 
         end
 
