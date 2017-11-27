@@ -2,7 +2,7 @@
 % Yunyi
 % Nov 5
 
-function h_tree = generate_h_tree( asf_contour, block, S )
+function h_tree = generate_h_tree( asf_contour_top, block, S )
 
 %%  1. Obtain Symmetry Blocks
 %   Symmetry blocks are skipped in HB* tree generation, since they are in hierarchy node
@@ -11,14 +11,15 @@ S.self = reshape(S.self, [1, length(S.self)]);
 sym = [S.pair, S.self];
 
 %%  2. Initialize Arrays
-name                    = fieldnames(asf_contour);              %   A cell array with length NP
+name                    = fieldnames(asf_contour_top);              %   A cell array with length NP
+NP = size(name,1);
 [block_number, ~]       = size(block);
 block_number            = block_number + 1;                     %   Adding the hierarchy node
 h_tree                  = struct();
 
 %%  3. Generate Random Tree
 for n = 1:NP
-    [contour_number, ~] = size(asf_contour.(name{n}));          %   Current member's contour number
+    [contour_number, ~] = size(asf_contour_top.(name{n}));          %   Current member's contour number
     perm                = randperm(block_number);               %   Current member's block permutation
     tree                = zeros(block_number, 3);
     contour_tree        = zeros(contour_number, 3);

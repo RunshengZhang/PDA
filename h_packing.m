@@ -9,7 +9,7 @@ function [h_placement] = h_packing( h_tree, asf_placement, asf_contour_top, asf_
     % 1. Global Initialization
 
     numberOfBlock = size(block,1);
-    [~,~,NP] = size(h_tree);
+    NP = size(fieldnames(asf_contour_top),1);
     h_placement = struct();
     
     % Start the iteration of NP
@@ -20,7 +20,7 @@ function [h_placement] = h_packing( h_tree, asf_placement, asf_contour_top, asf_
 
 
         % Local Initilzation
-        h_tree_curNP = h_tree(:,:,n);           % &&&&&&&&&&&&&&&&  might be changed! &&&&&&&&&&&&&&&&&
+        h_tree_curNP = h_tree.(NPname{n});           % &&&&&&&&&&&&&&&&  might be changed! &&&&&&&&&&&&&&&&&
         asf_placement_curNP = asf_placement.(NPname{n});
         asf_contour_top_curNP = asf_contour_top.(NPname{n});
         asf_contour_bottom_curNP = asf_contour_bottom.(NPname{n});
@@ -32,7 +32,7 @@ function [h_placement] = h_packing( h_tree, asf_placement, asf_contour_top, asf_
         contour_h_curNP = [];
         placement_h_curNP = [];
         
-        NumberOfNodeInHTree = size(h_tree,1);
+        NumberOfNodeInHTree = size(h_tree_curNP,1);
 
         % Start going through the h_tree
 
@@ -435,6 +435,9 @@ function [h_placement] = h_packing( h_tree, asf_placement, asf_contour_top, asf_
 
 
             end
+
+            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%plot_Debug_hpacking&&&&&&&&&&&&&
+            plotpacking(placement_h_curNP)
 
         end
 

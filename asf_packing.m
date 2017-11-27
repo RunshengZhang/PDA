@@ -11,7 +11,7 @@ self_sym_size = length(S.self);
 
 
 % extract NP
-NP = size(tree,3);
+NP = size(fieldnames(tree),1);
 
 
 
@@ -41,7 +41,7 @@ for np_index = 1: NP
     self_array = S.self;
     pair_matrix = S.pair;
 
-    current_tree = tree(:,:,np_index);
+    current_tree = tree.(NPname{np_index});
 
     tree_node_num = size(current_tree,1);
 
@@ -321,6 +321,13 @@ for np_index = 1: NP
 
         undecided_index = pair_matrix(i,1);
         mirrored_index = pair_matrix(i,2);
+
+        % Since now, the second colomn might not always be the source of mirrored_index, so we need to check, in this tree and this sym pair, which of them is the decided one
+        if placement_asf_eachNP(undecided_index,3) ~= 0
+            temp = undecided_index;
+            undecided_index = mirrored_index;
+            mirrored_index = temp;
+        end
 
         placement_asf_eachNP(undecided_index,:) = [ -(placement_asf_eachNP(mirrored_index,1) + placement_asf_eachNP(mirrored_index,3)) + max_x_coord, placement_asf_eachNP(mirrored_index,2), placement_asf_eachNP(mirrored_index,3),placement_asf_eachNP(mirrored_index,4)];
         placement_asf_eachNP(mirrored_index,1) = max_x_coord + placement_asf_eachNP(mirrored_index,1);

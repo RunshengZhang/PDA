@@ -20,8 +20,8 @@ asf_tree = generate_asf_tree( S, algo );
 [ asf_placement, asf_contour_top, asf_contour_bottom ] = asf_packing( asf_tree, block, S );
 
 %   2.3 Generate Random HB* tree
-%h_tree = generate_h_tree( asf_contour_top, block, S );
+h_tree = generate_h_tree( asf_contour_top, block, S );
 
 %   2.4 Pack HB* tree
-%h_placement = h_packing( h_tree, asf_placement,asf_contour_top, asf_contour_bottom, block );
+h_placement = h_packing( h_tree, asf_placement,asf_contour_top, asf_contour_bottom, block );
 
