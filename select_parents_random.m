@@ -6,7 +6,7 @@
 %   Parent 1 is the current member. Parent 2 is selected randomly. 
 %   This is used for updating asf_tree in "ami33" and "ami49", and for updating h_tree in "apte", "Comparator", and "hp".
 
-function [parent_1, parent_2] = select_parents( tree, hpwl, n )
+function [parent_1, parent_2] = select_parents_random( tree, hpwl, n )
 
 name = fieldnames(tree);
 NP = length(hpwl);

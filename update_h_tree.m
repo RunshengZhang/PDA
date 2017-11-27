@@ -2,10 +2,14 @@
 % Nov 21
 % Yunyi
 
+% Change Log:
+%   Nov 27: Use two different parent-selecting function;
+%           Fix bugs with contour_tree;
+
 % Description:
 %   Update hierarchical HB* tree. with the new crossover operator. First parent is the current member
-%   in population, second parent is chosen based on HPWL ranking. It works for testbench "ami33" and "ami49"
-%   in which symmetry blocks dominate.
+%   in population, second parent is chosen based on HPWL ranking (for "ami33" and "ami49") or randomly
+%   (for "apte", "comparator", "hp")
 
 % Outline:
 %   1)  Contour-node-related update of h-tree;
@@ -18,7 +22,7 @@
 %   6)  Generate new tree;
 %   7)  Redo NP times.
 
-function h_tree_new = update_h_tree( h_tree, asf_contour, asf_contour_new, block, algo, hpwl )
+function h_tree_new = update_h_tree( h_tree, asf_contour, asf_contour_new, algo, hpwl )
 
 %   Input: h_tree, asf_contour, asf_contour_new are structs.
 %   Output: h_tree_new is struct.
@@ -38,6 +42,7 @@ for n = 1:NP
     if contour_number_new > contour_number
         %   Case 1: Add new contour nodes
         tree_new = [];
+        contour_tree = [];
         for i = (contour_number+1):contour_number_new
             contour_tree(i - contour_number,:) = [-i, -i+1, 0];         %   New contour tree to be added
         end
@@ -121,7 +126,8 @@ end
 for n = 1:NP
 
     %%  2. Choose Parents
-    [parent_1, parent_2] = select_parents_struct( h_tree, hpwl, n );
+    [parent_1, parent_2] = select_parents_random( h_tree, hpwl, n );    %   For "apte", "comparator", "hp"
+    %[parent_1, parent_2] = select_parents( h_tree, hpwl, n );          %   For "ami33", "ami49"
 
     %%   3. Select Subtree from the Second Parent
     [block_number, ~] = size(parent_2);
@@ -269,6 +275,7 @@ for n = 1:NP
     %   6.3 Contour Tree
     if flag == 1
         %   Generate Contour Tree
+        contour_tree = [];
         contour_tree(:,1) = contour_node;
         contour_tree(1,2:3) = [0, hier_node];
         contour_tree(2:end,2:3) = [contour_tree(1:(end-1), 1), zeros(contour_number-1,1)];
