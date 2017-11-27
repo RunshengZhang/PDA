@@ -89,6 +89,8 @@ for n = 1:NP
     index = find(tree(:,3)<0, 1);
     if ~isempty(index)
         tree = [tree(1:(index-1),:); contour_tree; tree(index:end,:)];
+    else 
+        tree = [tree; contour_tree];                                        %   Append at the end
     end
     
     h_tree.(name{n}) = tree;
