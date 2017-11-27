@@ -4,11 +4,12 @@
 
 % Change Log:
 %   Nov 26: Change data type of "asf_tree" and "asf_tree_new" to struct.
+%   Nov 27: Use two different parent-selecting function.
 
 % Description:
 %   Update ASF representative B* tree with the new crossover operator; First parent is the current member
-%   in population, second parent is chosen based on HPWL ranking. It works for testbench "apte", 
-%   "comparator", and "hp", in which symmetry blocks dominate.
+%   in population, second parent is chosen based on HPWL ranking (for "apte", "comparator", "hp") 
+%   or randomly (for "ami33", "ami49")
 
 % Outline:
 %   1)  Choose the second parent based on fitness using ranking;
@@ -28,6 +29,7 @@ for n = 1:NP
 
     %%   1. Choose Parents
     [parent_1, parent_2] = select_parents( asf_tree, hpwl, n );
+    %[parent_1, parent_2] = select_parents_random( asf_tree, hpwl, n );
 
     %%   2. Select Subtree from the Second Parent
     [block_number, ~] = size(parent_2);

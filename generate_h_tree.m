@@ -90,7 +90,7 @@ for n = 1:NP
     if ~isempty(index)
         tree = [tree(1:(index-1),:); contour_tree; tree(index:end,:)];
     else 
-        tree = [tree; contour_tree];                                        %   Append at the end
+        tree = [tree; contour_tree];                              %   Append at the end
     end
     
     h_tree.(name{n}) = tree;
