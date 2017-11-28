@@ -13,3 +13,7 @@ Nov 26
   1. Upload "update_h_tree.m" and its subfunction to the repository;
   2. Change asf_tree data type to struct;
   3. Fix corner case in "generate_h_tree.m".
+
+Nov 27
+  1. Minor Changes
+  2. Modify the evaluate function to fit the struct

@@ -25,3 +25,4 @@ h_tree = generate_h_tree( asf_contour_top, block, S );
 %   2.4 Pack HB* tree
 h_placement = h_packing( h_tree, asf_placement,asf_contour_top, asf_contour_bottom, block );
 
+[ area, hpwl ] = evaluate( h_placement, block, net );
