@@ -5,6 +5,7 @@
 % Change Log:
 %   Nov 27: Use two different parent-selecting function;
 %           Fix bugs with contour_tree;
+%   Nov 28: Update asf_contour_new when updating the h_tree;
 
 % Description:
 %   Update hierarchical HB* tree. with the new crossover operator. First parent is the current member
@@ -22,14 +23,15 @@
 %   6)  Generate new tree;
 %   7)  Redo NP times.
 
-function h_tree_new = update_h_tree( h_tree, asf_contour, asf_contour_new, algo, hpwl )
+function [h_tree_new, asf_contour_temp] = update_h_tree( h_tree, asf_contour, asf_contour_new, algo, hpwl )
 
 %   Input: h_tree, asf_contour, asf_contour_new are structs.
 %   Output: h_tree_new is struct.
 
-NP          = algo.NP;
-h_tree_new  = struct();
-name        = fieldnames(asf_contour);
+NP                  = algo.NP;
+h_tree_new          = struct();
+asf_contour_temp    = struct();
+name                = fieldnames(asf_contour);
 
 %%  1. Contour-node-related Update
 for n = 1:NP
@@ -126,8 +128,8 @@ end
 for n = 1:NP
 
     %%  2. Choose Parents
-    [parent_1, parent_2] = select_parents_random( h_tree, hpwl, n );    %   For "apte", "comparator", "hp"
-    %[parent_1, parent_2] = select_parents( h_tree, hpwl, n );          %   For "ami33", "ami49"
+    [parent_1, parent_2, parent_2_index] = select_parents_random( h_tree, hpwl, n );    %   For "apte", "comparator", "hp"
+    %[parent_1, parent_2, parent_2_index] = select_parents( h_tree, hpwl, n );          %   For "ami33", "ami49"
 
     %%   3. Select Subtree from the Second Parent
     [block_number, ~] = size(parent_2);
@@ -164,6 +166,9 @@ for n = 1:NP
     if ~isempty(find(subtree(:,1) == hier_node))
         index = find(rest(:,1) < 0);
         rest(index,:) = [];                                     %   Delete redundant contour nodes
+        asf_contour_temp.(name{n}) = asf_contour_new.(name{parent_2_index});    %   Update asf contour
+    else
+        asf_contour_temp.(name{n}) = asf_contour_new.(name{n});
     end
 
     %%   5. Update Tree and Parent Nodes

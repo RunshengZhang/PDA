@@ -9,3 +9,9 @@ algo.NP = 4;
 
 %   2. Max Iteration (itermax)
 algo.itermax = 1;
+
+%   3. Acceptance Probability (AP)
+algo.AP = 0.05;
+
+%   4. Dead Space (DS)
+algo.DS = 10;
