@@ -105,7 +105,7 @@ for n = 1:NP
 
     for i = 1:rest_number
         newtree(i,1) = rest(i,1);
-        newtree(i,4) = rest(i,4);
+        newtree(i,4) = rest(i,4);                           %   Representative follows "rest" (TBD)
         if ismember(newtree(i,1), S.self)
             %   Append self symmetry block to right-most node
             newtree(i, 2) = 0;                              %   No right-parent

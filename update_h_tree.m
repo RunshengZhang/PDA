@@ -9,7 +9,7 @@
 % Description:
 %   Update hierarchical HB* tree. with the new crossover operator. First parent is the current member
 %   in population, second parent is chosen based on HPWL ranking (for "ami33" and "ami49") or randomly
-%   (for "apte", "comparator", "hp")
+%   (for "apte", "hp"). DO NOT update h-tree for comparator.
 
 % Outline:
 %   1)  Contour-node-related update of h-tree;
