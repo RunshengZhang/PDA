@@ -16,3 +16,4 @@ Nov 26
 
 Nov 27
   1. Minor Changes
+  2. Modify the evaluate function to fit the struct

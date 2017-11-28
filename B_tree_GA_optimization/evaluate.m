@@ -20,7 +20,7 @@ for n = 1:NP
     % build the field name
     name{n} = sprintf('NP%d', n);
 
-    cur_placement = placement.(name{n})
+    cur_placement = placement.(name{n});
 
     x_max       = zeros(1, block_number);           %   for computing area
     y_max       = zeros(1, block_number);
