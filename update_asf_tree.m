@@ -5,6 +5,7 @@
 % Change Log:
 %   Nov 26: Change data type of "asf_tree" and "asf_tree_new" to struct.
 %   Nov 27: Use two different parent-selecting function.
+%   Nov 29: Testbench-specific parent selection.
 
 % Description:
 %   Update ASF representative B* tree with the new crossover operator; First parent is the current member
@@ -19,7 +20,7 @@
 %   5)  Generate new tree;
 %   6)  Redo NP times.
 
-function asf_tree_new = update_asf_tree( asf_tree, algo, hpwl, S )
+function asf_tree_new = update_asf_tree( asf_tree, algo, hpwl, S, testbench )
 
 name = fieldnames(asf_tree);
 NP = algo.NP;
@@ -28,8 +29,11 @@ asf_tree_new = struct();
 for n = 1:NP
 
     %%   1. Choose Parents
-    [parent_1, parent_2] = select_parents( asf_tree, hpwl, n );
-    %[parent_1, parent_2] = select_parents_random( asf_tree, hpwl, n );
+    if strcmp(testbench, 'apte')||strcmp(testbench, 'hp')||strcmp(testbench, 'COMPARATOR_V2_VAR_K2')
+        [parent_1, parent_2] = select_parents( asf_tree, hpwl, n );
+    elseif strcmp(testbench, 'ami33')||strcmp(testbench, 'ami49')
+        [parent_1, parent_2] = select_parents_random( asf_tree, hpwl, n );
+    end
 
     %%   2. Select Subtree from the Second Parent
     [block_number, ~] = size(parent_2);
