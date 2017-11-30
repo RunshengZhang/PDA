@@ -2,11 +2,14 @@
 % Yunyi
 % Nov 23
 
+% Change Log:
+%   Nov 28: Output index_2;
+
 % Description:
 %   Parent 1 is the current member. Parent 2 is selected based on fitness rankings. 
 %   Better results have larger ranking, and they are more likely to be selected as parents.
 
-function [parent_1, parent_2] = select_parents( tree, hpwl, n )
+function [parent_1, parent_2, index_2] = select_parents( tree, hpwl, n )
 
 name = fieldnames(tree);
 

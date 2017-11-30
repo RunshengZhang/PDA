@@ -5,8 +5,8 @@
 function [ area, hpwl ] = evaluate( placement, block, net )
 
 [block_number,~] = size(block);
-NP = size(fieldnames(placement),1);             % fieldnames return the n x 1 array   
-net_name    = fieldnames(net);                  %   Net: struct  net_name is an array
+NP          = length(fieldnames(placement));        %   fieldnames return the n x 1 array   
+net_name    = fieldnames(net);                      %   Net: struct  net_name is an array
 net_number  = length(net_name);
 area        = zeros(1,NP);
 hpwl        = zeros(1,NP);
