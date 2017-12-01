@@ -2,7 +2,7 @@
 % Runsheng Zhang
 % Nov 28(Happy Thanksgiving)(The first Tue after Thanksgiving!)
 
-function [ placement_best, area_best, hpwl_best ] = final( h_placement,h_tree, area, hpwl, S,block)
+function [ placement_best, area_best, hpwl_best ] = final( h_placement,h_tree, area, hpwl, S)
 
     NP = size(fieldnames(h_placement),1);
 

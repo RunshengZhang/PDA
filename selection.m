@@ -2,7 +2,7 @@
 % Yunyi
 % Nov 28
 
-function    [ asf_tree, asf_contour_top, asf_contour_bottom, h_tree, h_placement, area, hpwl ] = selection( asf_tree, asf_contour_top, asf_contour_bottom, h_tree, h_placement, area, hpwl, asf_tree_new, asf_contour_top_new, asf_contour_bottom_new, h_tree_new, h_placement_new, area_new, hpwl_new, algo, block ) 
+function  [ asf_tree, asf_contour_top, h_tree, h_placement, area, hpwl ] = selection( asf_tree, asf_contour_top,  h_tree, h_placement, area, hpwl, asf_tree_new, asf_contour_top_new,  h_tree_new, h_placement_new, area_new, hpwl_new, algo, block ) 
 
 DS = algo.DS;
 AP = algo.AP;
@@ -40,7 +40,7 @@ for n = 1:NP
     if update(n) == 1
         asf_tree.(name{n}) = asf_tree_new.(name{n});
         asf_contour_top.(name{n}) = asf_contour_top_new.(name{n});
-        asf_contour_bottom.(name{n}) = asf_contour_bottom_new.(name{n});
+        % asf_contour_bottom.(name{n}) = asf_contour_bottom_new.(name{n});
         h_tree.(name{n}) = h_tree_new.(name{n});
         h_placement.(name{n}) = h_placement_new.(name{n});
     end
