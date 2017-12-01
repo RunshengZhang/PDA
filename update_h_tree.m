@@ -25,7 +25,7 @@
 %   6)  Generate new tree;
 %   7)  Redo NP times.
 
-function [h_tree_new, asf_contour_temp] = update_h_tree( h_tree, asf_contour, asf_contour_new, algo, hpwl, testbench )
+function [h_tree_new, asf_contour_temp, placement_temp] = update_h_tree( h_tree, asf_contour, asf_contour_new, placement, algo, hpwl, testbench )
 
 %   Input: h_tree, asf_contour, asf_contour_new are structs.
 %   Output: h_tree_new is struct.
@@ -33,6 +33,7 @@ function [h_tree_new, asf_contour_temp] = update_h_tree( h_tree, asf_contour, as
 NP                  = algo.NP;
 h_tree_new          = struct();
 asf_contour_temp    = struct();
+placement_temp      = struct();
 name                = fieldnames(asf_contour);
 
 %%  1. Contour-node-related Update
@@ -130,6 +131,7 @@ end
 if strcmp(testbench,'COMPARATOR_V2_VAR_K2')
     h_tree_new = h_tree;
     asf_contour_temp = asf_contour_new;
+    placement_temp = placement;
     return;
 end
 
@@ -179,8 +181,10 @@ for n = 1:NP
         index = find(rest(:,1) < 0);
         rest(index,:) = [];                                     %   Delete redundant contour nodes
         asf_contour_temp.(name{n}) = asf_contour_new.(name{parent_2_index});    %   Update asf contour
+        placement_temp.(name{n}) = placement.(name{parent_2_index});
     else
         asf_contour_temp.(name{n}) = asf_contour_new.(name{n});
+        placement_temp.(name{n}) = placement.(name{n});
     end
 
     %%   5. Update Tree and Parent Nodes
