@@ -22,3 +22,11 @@ Nov 28
   1. Upload "selection.m";
   3. Update the main function;
   2. Fix error in multiple functions.
+
+Nov 29
+  1. Fix bugs in "update_h_tree.m";
+  2. Minor changes. Parent-selection strategy is automatically chosen according to testbench;
+  3. Upload "get_best.m".
+
+Nov 30
+  1. Update the main function according to the function definition file;

@@ -6,6 +6,8 @@
 %   Nov 27: Use two different parent-selecting function;
 %           Fix bugs with contour_tree;
 %   Nov 28: Update asf_contour_new when updating the h_tree;
+%   Nov 29: Fix bugs with contour_tree problem;
+%           Testbench-specific parent selection.
 
 % Description:
 %   Update hierarchical HB* tree. with the new crossover operator. First parent is the current member
@@ -23,7 +25,7 @@
 %   6)  Generate new tree;
 %   7)  Redo NP times.
 
-function [h_tree_new, asf_contour_temp] = update_h_tree( h_tree, asf_contour, asf_contour_new, algo, hpwl )
+function [h_tree_new, asf_contour_temp] = update_h_tree( h_tree, asf_contour, asf_contour_new, algo, hpwl, testbench )
 
 %   Input: h_tree, asf_contour, asf_contour_new are structs.
 %   Output: h_tree_new is struct.
@@ -124,12 +126,22 @@ for n = 1:NP
     h_tree.(name{n}) = tree_new;                                        %   Replace original tree
 end
 
-%   ------------------------------------------------------------------------------------------------------
+%   No need to update h-tree for "comparator"
+if strcmp(testbench,'COMPARATOR_V2_VAR_K2')
+    h_tree_new = h_tree;
+    asf_contour_temp = asf_contour_new;
+    return;
+end
+
+%   --------------------------------------------------------------------------------------------------------
 for n = 1:NP
 
     %%  2. Choose Parents
-    [parent_1, parent_2, parent_2_index] = select_parents_random( h_tree, hpwl, n );    %   For "apte", "comparator", "hp"
-    %[parent_1, parent_2, parent_2_index] = select_parents( h_tree, hpwl, n );          %   For "ami33", "ami49"
+    if strcmp(testbench,'apte')||strcmp(testbench,'hp')
+        [parent_1, parent_2, parent_2_index] = select_parents_random( h_tree, hpwl, n );    %   For "apte", "hp"
+    elseif strcmp(testbench,'ami33')||strcmp(testbench,'ami49')
+        [parent_1, parent_2, parent_2_index] = select_parents( h_tree, hpwl, n );           %   For "ami33", "ami49"
+    end
 
     %%   3. Select Subtree from the Second Parent
     [block_number, ~] = size(parent_2);
@@ -202,7 +214,7 @@ for n = 1:NP
             %   Add feasible parents
             right_parents = [right_parents, offspring(i,1)];
             if offspring(i, 1) == hier_node
-                contour_number = length(find(offspring(:,1) < 0));
+                [contour_number, ~] = size(asf_contour_new.(name{parent_2_index}));
                 contour_node = (-contour_number):-1;
                 contour_node = fliplr(contour_node);
                 left_parents = [left_parents, contour_node];
@@ -278,7 +290,8 @@ for n = 1:NP
     end
 
     %   6.3 Contour Tree
-    if flag == 1
+    if (flag == 1) || ((flag == 0) && (isempty(find(subtree(:,1)<0))))
+        %   "rest" has hierarchy node, or "subtree" has hierarchy node but no contour tree
         %   Generate Contour Tree
         contour_tree = [];
         contour_tree(:,1) = contour_node;
