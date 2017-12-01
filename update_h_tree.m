@@ -8,6 +8,7 @@
 %   Nov 28: Update asf_contour_new when updating the h_tree;
 %   Nov 29: Fix bugs with contour_tree problem;
 %           Testbench-specific parent selection.
+%   Dec 1:  Update to deal with rotation.
 
 % Description:
 %   Update hierarchical HB* tree. with the new crossover operator. First parent is the current member
@@ -26,9 +27,6 @@
 %   7)  Redo NP times.
 
 function [h_tree_new, asf_contour_temp, placement_temp] = update_h_tree( h_tree, asf_contour, asf_contour_new, placement, algo, hpwl, testbench )
-
-%   Input: h_tree, asf_contour, asf_contour_new are structs.
-%   Output: h_tree_new is struct.
 
 NP                  = algo.NP;
 h_tree_new          = struct();
@@ -49,7 +47,7 @@ for n = 1:NP
         tree_new = [];
         contour_tree = [];
         for i = (contour_number+1):contour_number_new
-            contour_tree(i - contour_number,:) = [-i, -i+1, 0];         %   New contour tree to be added
+            contour_tree(i - contour_number,:) = [-i, -i+1, 0, 0];      %   New contour tree to be added
         end
         index = find(tree(:,1) == (-contour_number));                   %   Last contour node in h_tree
         tree_new(1:index, :) = tree(1:index, :);
@@ -249,6 +247,7 @@ for n = 1:NP
             %   Keep same left parent
             newtree(i, 2) = 0;
             newtree(i, 3) = rest(i, 3);
+            newtree(i, 4) = rest(i ,4);                             %   Keep same rotation
             index = find(ismember(left_parents, newtree(i, 3)));
             left_parents(index:end) = [];
             index = find(right_parents == newtree(i, 3));
@@ -260,11 +259,13 @@ for n = 1:NP
             %   Keep same right parent
             newtree(i, 3) = 0;
             newtree(i, 2) = rest(i, 2);
+            newtree(i, 4) = rest(i ,4);                             %   Keep same rotation
             index = find(ismember(right_parents, newtree(i, 2)));
             right_parents(index) = []; 
         elseif (randi([0,1],1) == 1 && ~isempty(left_parents))
             %   Pick parent randomly (left)
             newtree(i, 2) = 0;                          %   Only left-parent
+            newtree(i ,4) = randi([0,1]);               %   Random rotation
             index = randi(length(left_parents));        %   Pick randomly from feasible parents
             newtree(i, 3) = left_parents(index);
             left_parents(index:end) = [];               %   Delete succeedings from feasible left-parent list
@@ -276,6 +277,7 @@ for n = 1:NP
         else 
             %   Pick parent randomly (right)
             newtree(i, 3) = 0;                          %   Only right-parent
+            newtree(i, 4) = randi([0,1]);               %   Random rotation
             index = randi(length(right_parents));       %   Pick randomly from feasible parents
             newtree(i, 2) = right_parents(index);
             right_parents(index) = [];                  %   Delete from feasible right-parent list
@@ -299,8 +301,8 @@ for n = 1:NP
         %   Generate Contour Tree
         contour_tree = [];
         contour_tree(:,1) = contour_node;
-        contour_tree(1,2:3) = [0, hier_node];
-        contour_tree(2:end,2:3) = [contour_tree(1:(end-1), 1), zeros(contour_number-1,1)];
+        contour_tree(1,2:4) = [0, hier_node, 0];
+        contour_tree(2:end,2:4) = [contour_tree(1:(end-1), 1), zeros(contour_number-1,1), zeros(contour_number-1,1)];
 
         %   Insert Contour Tree
         index = find(newtree(:,3)<0, 1);

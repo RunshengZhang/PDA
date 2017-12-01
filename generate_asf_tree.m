@@ -6,6 +6,7 @@
 %           The fourth column denotes representative block: choosing from 1 and 2.
 %   Nov 20: Change parent updating procedure for self symmetry node.
 %   Nov 26: Change data type of "asf_tree" to struct.
+%   Dec 1:  Add another coloum in asf_tree for rotation.
 
 % Description:
 %   Generate symmetry feasible representative B*-tree from symmetry group information;
@@ -30,7 +31,8 @@ for n = 1:algo.NP
     %%  2. Initialize Arrays
     [block_number,~]= size(R);        
     perm            = randperm(block_number);           %   Random permutation
-    tree(1,:)       = [R(perm(1),1),0,0,R(perm(1),2)];  %   Root of tree
+    rotation        = randi([0,1], [1,block_number]);   %   Random rotation (0 = same, 1 = rotate)
+    tree(1,:)       = [R(perm(1),1),0,0,R(perm(1),2),rotation(1)];  %   Root of tree
     left_parents    = [tree(1,1)];                      %   Feasible left-parent list
     right_parents   = [tree(1,1)];                      %   Feasible right-parent list
     right_most      = [tree(1,1)];                      %   Right-most node
@@ -40,6 +42,7 @@ for n = 1:algo.NP
     for i = 2:block_number
         tree(i, 1) = R(perm(i), 1);
         tree(i, 4) = R(perm(i), 2);
+        tree(i, 5) = rotation(i);
         if ismember(tree(i, 1), S.pair)
             %   Current representative is a symmetry pair
             %   Decide right-parent or left-parent randomly

@@ -6,6 +6,7 @@
 %   Nov 26: Change data type of "asf_tree" and "asf_tree_new" to struct.
 %   Nov 27: Use two different parent-selecting function.
 %   Nov 29: Testbench-specific parent selection.
+%   Dec 1:  Update to deal with rotation.
 
 % Description:
 %   Update ASF representative B* tree with the new crossover operator; First parent is the current member
@@ -101,7 +102,7 @@ for n = 1:NP
     end
 
     %%  5. Generate New Tree
-    %   Try to keep the relative position in the first parent;
+    %   Try to keep the relative position in the first parent, including rotation;
     %   Special rule applys for self symmetry node.
 
     [rest_number, ~] = size(rest);
@@ -114,6 +115,7 @@ for n = 1:NP
             %   Append self symmetry block to right-most node
             newtree(i, 2) = 0;                              %   No right-parent
             newtree(i, 3) = right_most;                     %   Left-parent is right-most node
+            newtree(i, 5) = randi([0,1]);                   %   Random rotation
             right_most = newtree(i, 1);                     %   Update right-most node
             index = find(ismember(left_parents, newtree(i, 3)));
             left_parents(index:end) = [];
@@ -126,6 +128,7 @@ for n = 1:NP
             %   Keep same left parent
             newtree(i, 2) = 0;
             newtree(i, 3) = rest(i, 3);
+            newtree(i, 5) = rest(i, 5);                 %   Keep parent and rotation the same
             index = find(ismember(left_parents, newtree(i, 3)));
             left_parents(index:end) = [];
             index = find(right_parents == newtree(i, 3));
@@ -137,11 +140,13 @@ for n = 1:NP
             %   Keep same right parent
             newtree(i, 3) = 0;
             newtree(i, 2) = rest(i, 2);
+            newtree(i, 5) = rest(i, 5);                     %   Keep parent and rotation the same
             index = find(ismember(right_parents, newtree(i, 2)));
             right_parents(index) = []; 
         elseif (randi([0,1],1) == 1 && ~isempty(left_parents))
             %   Pick parent randomly (left)
             newtree(i, 2) = 0;                          %   Only left-parent
+            newtree(i, 5) = randi([0,1]);               %   Random rotation
             index = randi(length(left_parents));        %   Pick randomly from feasible parents
             newtree(i, 3) = left_parents(index);
             left_parents(index:end) = [];               %   Delete succeedings from feasible left-parent list
@@ -153,6 +158,7 @@ for n = 1:NP
         else 
             %   Pick parent randomly (right)
             newtree(i, 3) = 0;                          %   Only right-parent
+            newtree(i, 5) = randi([0,1]);               %   Random rotation
             index = randi(length(right_parents));       %   Pick randomly from feasible parents
             newtree(i, 2) = right_parents(index);
             right_parents(index) = [];                  %   Delete from feasible right-parent list
