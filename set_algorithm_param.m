@@ -5,10 +5,10 @@
 function algo = set_algorithm_param()
 
 %   1. Number of Popoulation (NP)
-algo.NP = 40;
+algo.NP = 50;
 
 %   2. Max Iteration (itermax)
-algo.itermax = 100;
+algo.itermax = 300;
 
 %   3. Acceptance Probability (AP)
 algo.AP = 0.1;

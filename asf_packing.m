@@ -60,16 +60,30 @@ for np_index = 1: NP
             node_index = current_node(1);   %index of this node which can be viewed as id
             
             if ismember(node_index, self_array)    % then current is a self-sym block
-                placement_asf_eachNP(node_index,:) = [0,0,str2double(block(node_index,2))/2 ,str2double(block(node_index,3))];
-                % we place the information of a block in the form as [x,y,width,height] at index at node_index
-                contour_asf_top_eachNP = [contour_asf_top_eachNP ; 0 , str2double(block(node_index,2))/2 , str2double(block(node_index,3)) ];
-                contour_asf_bottom_eachNP = [contour_asf_bottom_eachNP ; 0 , str2double(block(node_index,2))/2 , 0 ];
+                if current_node(5) == 0
+                    placement_asf_eachNP(node_index,:) = [0,0,str2double(block(node_index,2))/2 ,str2double(block(node_index,3))];
+                    % we place the information of a block in the form as [x,y,width,height] at index at node_index
+                    contour_asf_top_eachNP = [contour_asf_top_eachNP ; 0 , str2double(block(node_index,2))/2 , str2double(block(node_index,3)) ];
+                    contour_asf_bottom_eachNP = [contour_asf_bottom_eachNP ; 0 , str2double(block(node_index,2))/2 , 0 ];
+                else
+                    placement_asf_eachNP(node_index,:) = [0,0,str2double(block(node_index,3))/2 ,str2double(block(node_index,2))];
+                    % we place the information of a block in the form as [x,y,width,height] at index at node_index
+                    contour_asf_top_eachNP = [contour_asf_top_eachNP ; 0 , str2double(block(node_index,3))/2 , str2double(block(node_index,2)) ];
+                    contour_asf_bottom_eachNP = [contour_asf_bottom_eachNP ; 0 , str2double(block(node_index,3))/2 , 0 ];
+
+                end
             else
-                placement_asf_eachNP(node_index,:) = [0, 0, str2double(block(node_index,2)),str2double(block(node_index,3))];
-                % we place the information of a block in the form as [x,y,width,height] at index at node_index
-                contour_asf_top_eachNP = [contour_asf_top_eachNP ; 0 , str2double(block(node_index,2)) , str2double(block(node_index,3))];
-                contour_asf_bottom_eachNP = [contour_asf_bottom_eachNP ; 0 , str2double(block(node_index,2)) , 0 ];
-            
+                if current_node(5) == 0
+                    placement_asf_eachNP(node_index,:) = [0, 0, str2double(block(node_index,2)),str2double(block(node_index,3))];
+                    % we place the information of a block in the form as [x,y,width,height] at index at node_index
+                    contour_asf_top_eachNP = [contour_asf_top_eachNP ; 0 , str2double(block(node_index,2)) , str2double(block(node_index,3))];
+                    contour_asf_bottom_eachNP = [contour_asf_bottom_eachNP ; 0 , str2double(block(node_index,2)) , 0 ];
+                else
+                    placement_asf_eachNP(node_index,:) = [0, 0, str2double(block(node_index,3)),str2double(block(node_index,2))];
+                    % we place the information of a block in the form as [x,y,width,height] at index at node_index
+                    contour_asf_top_eachNP = [contour_asf_top_eachNP ; 0 , str2double(block(node_index,3)) , str2double(block(node_index,2))];
+                    contour_asf_bottom_eachNP = [contour_asf_bottom_eachNP ; 0 , str2double(block(node_index,3)) , 0 ];
+                end
             end
             
 
@@ -88,8 +102,17 @@ for np_index = 1: NP
             parent_width = parent_entry(3);
             
             node_x = parent_x + parent_width;
-            node_width = str2double(block(node_index,2));
-            node_height = str2double(block(node_index,3));
+            
+            
+            
+
+            if current_node(5) == 1
+                node_width = str2double(block(node_index,3));
+                node_height = str2double(block(node_index,2));
+            else
+                node_width = str2double(block(node_index,2));
+                node_height = str2double(block(node_index,3));
+            end
             
             % Now determine the y place to put the cell
             [contour_entry, ~] = size(contour_asf_top_eachNP);
@@ -189,12 +212,21 @@ for np_index = 1: NP
             parent_height = parent_entry(4);
 
             node_x = parent_x;     % this node's x coordinate must be same as his parent
-            node_width = str2double(block(node_index,2));
+            
+            
+            if current_node(5) == 0
+                node_width = str2double(block(node_index,2));
+                node_height = str2double(block(node_index,3));
+            else
+                node_width = str2double(block(node_index,3));
+                node_height = str2double(block(node_index,2));
+            end
+
+
+
             if ismember(node_index,self_array)
                 node_width = node_width / 2 ;
             end
-
-            node_height = str2double(block(node_index,3));
 
             if node_width <= parent_width       % current node will not exceed the parent's width
 

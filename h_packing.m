@@ -60,7 +60,11 @@ function [h_placement] = h_packing( h_tree, asf_placement, asf_contour_top, asf_
 
                 else
 
-                    block_entry = str2double(block(node_index,2:3));
+                    if h_tree_entry(4) == 0
+                        block_entry = str2double(block(node_index,2:3));
+                    else
+                        block_entry = [str2double(block(node_index,3)),str2double(block(node_index,2))];
+                    end
 
                     placement_h_curNP(node_index,:) = [0,0,block_entry];
 
@@ -81,6 +85,9 @@ function [h_placement] = h_packing( h_tree, asf_placement, asf_contour_top, asf_
                 if node_index <= numberOfBlock && node_index > 0     % Regular node to regular/hierachy node            
                     
                     block_entry = str2double(block(node_index,2:3));
+                    if h_tree_entry(4) == 1
+                        block_entry([1 2]) = block_entry([2 1]);
+                    end
                     node_width = block_entry(1);
                     node_height = block_entry(2);
                     
@@ -271,6 +278,10 @@ function [h_placement] = h_packing( h_tree, asf_placement, asf_contour_top, asf_
                 if node_index <= numberOfBlock && node_index > 0 && h_tree_entry(3) > 0          % Regular node on top of regular node
                     
                     block_entry = str2double(block(node_index,2:3));
+
+                    if h_tree_entry(4) == 1
+                        block_entry([1 2]) = block_entry([2 1]);
+                    end
                     node_width = block_entry(1);
                     node_height = block_entry(2);
                     
@@ -396,6 +407,9 @@ function [h_placement] = h_packing( h_tree, asf_placement, asf_contour_top, asf_
                 elseif node_index <= numberOfBlock && node_index > 0 && h_tree_entry(3) < 0     % regular node on top of some hierachy contour    
                     
                     block_entry = str2double(block(node_index,2:3));
+                    if h_tree_entry(4) == 1
+                        block_entry([1 2]) = block_entry([2 1]);
+                    end
                     node_width = block_entry(1);
                     node_height = block_entry(2);
 
