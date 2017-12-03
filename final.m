@@ -25,11 +25,11 @@ function [ placement_best, area_best, hpwl_best ] = final( h_placement,h_tree, a
     for i = 1:size(placement_best,1)
         label{i} = sprintf('%d', i);
         if ismember(i,S.pair)
-            rectangle('Position', placement_best(i,:),'Facecolor',[1,0,0]);
+            rectangle('Position', placement_best(i,:),'Facecolor',[255/256,120/256,130/256]);
         elseif ismember(i,S.self)
-            rectangle('Position', placement_best(i,:),'Facecolor',[0,0,1]);
+            rectangle('Position', placement_best(i,:),'Facecolor',[255/256,120/256,130/256]);
         else
-            rectangle('Position', placement_best(i,:),'Facecolor',[0,1,0]);
+            rectangle('Position', placement_best(i,:),'Facecolor',[253/256,216/256,160/256]);
         end 
         text(placement_best(i,1)+(placement_best(i,3)/2) , placement_best(i,2) + (placement_best(i,4)/2) , label{i} );
 
