@@ -54,4 +54,4 @@ for iteration = 1:algo.itermax
 end
 
 %%  4. Final Result, Summary, and Plotting
-[ placement, area_best, hpwl_best ] = final( placement, h_tree, area, hpwl, S );
+final_result = final( best_member, S, algo );

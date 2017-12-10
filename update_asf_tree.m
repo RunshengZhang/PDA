@@ -23,6 +23,8 @@
 
 function asf_tree_new = update_asf_tree( asf_tree, algo, hpwl, S, testbench )
 
+tic;
+
 name = fieldnames(asf_tree);
 NP = algo.NP;
 asf_tree_new = struct();
@@ -172,3 +174,6 @@ for n = 1:NP
     offspring = [offspring; newtree];
     asf_tree_new.(name{n}) = offspring;
 end
+
+time = toc;
+fprintf('CPU time for updating asf tree: %d s \n', time);

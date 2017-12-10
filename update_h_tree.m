@@ -28,6 +28,8 @@
 
 function [h_tree_new, asf_contour_temp, placement_temp] = update_h_tree( h_tree, asf_contour, asf_contour_new, placement, algo, hpwl, testbench )
 
+tic;
+
 NP                  = algo.NP;
 h_tree_new          = struct();
 asf_contour_temp    = struct();
@@ -316,3 +318,6 @@ for n = 1:NP
     offspring = [offspring; newtree];
     h_tree_new.(name{n}) = offspring;
 end
+
+time = toc;
+fprintf('CPU time for updating h tree: %d s \n', time);

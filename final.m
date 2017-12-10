@@ -2,42 +2,22 @@
 % Runsheng Zhang
 % Nov 28(Happy Thanksgiving)(The first Tue after Thanksgiving!)
 
-function [ placement_best, area_best, hpwl_best ] = final( h_placement,h_tree, area, hpwl, S)
+function final_result = final( best_member, S, algo)
 
-    NP = size(fieldnames(h_placement),1);
+    %   Final Result
+    final_result.placement = best_member.placement(:,:,algo.itermax);
+    final_result.area = best_member.area(algo.itermax);
+    final_result.hpwl = best_member.hpwl(algo.itermax);
 
-    for n = 1 : NP
-        
-        name{n} = sprintf('NP%d', n);
-
-    end
-
-    [hpwl_best, best_hpwl_index] = min(hpwl)
-    area_best = area(best_hpwl_index);
-
-
- 
-
-    placement_best = h_placement.(name{best_hpwl_index})
-    h_tree_best = h_tree.(name{best_hpwl_index})
-
-
-    for i = 1:size(placement_best,1)
+    %   Plot Placement
+    for i = 1:size(final_result.placement,1)
         label{i} = sprintf('%d', i);
         if ismember(i,S.pair)
-            rectangle('Position', placement_best(i,:),'Facecolor',[255/256,120/256,130/256]);
+            rectangle('Position', final_result.placement(i,:),'Facecolor',[255/256,120/256,130/256]);
         elseif ismember(i,S.self)
-            rectangle('Position', placement_best(i,:),'Facecolor',[255/256,120/256,130/256]);
+            rectangle('Position', final_result.placement(i,:),'Facecolor',[255/256,120/256,130/256]);
         else
-            rectangle('Position', placement_best(i,:),'Facecolor',[253/256,216/256,160/256]);
+            rectangle('Position', final_result.placement(i,:),'Facecolor',[253/256,216/256,160/256]);
         end 
-        text(placement_best(i,1)+(placement_best(i,3)/2) , placement_best(i,2) + (placement_best(i,4)/2) , label{i} );
-
-
-
-
+        text(final_result.placement(i,1)+(final_result.placement(i,3)/2) , final_result.placement(i,2) + (final_result.placement(i,4)/2) , label{i} );
     end
-
-
-
-

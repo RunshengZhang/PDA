@@ -4,6 +4,8 @@
 
 function [ asf_placement, asf_contour_top, asf_contour_bottom ] = asf_packing(tree, block, S)
 
+tic;
+
 % Some parameter might be useful later on
 [block_num , ~] = size(block);
 self_sym_size = length(S.self);
@@ -482,3 +484,6 @@ for np_index = 1: NP
 
 
 end
+
+time = toc;
+fprintf('CPU time for packing asf tree: %d s \n', time);

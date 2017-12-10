@@ -6,6 +6,8 @@
 
 function [h_placement] = h_packing( h_tree, asf_placement, asf_contour_top, asf_contour_bottom, block )
 
+    tic;
+    
     % 1. Global Initialization
 
     numberOfBlock = size(block,1);
@@ -458,3 +460,6 @@ function [h_placement] = h_packing( h_tree, asf_placement, asf_contour_top, asf_
         h_placement.(NPname{n}) = placement_h_curNP;
 
     end
+
+    time = toc;
+    fprintf('CPU time for packing h tree: %d s \n', time);
