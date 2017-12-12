@@ -33,3 +33,7 @@ Nov 30
 
 Dec 1
   1. Update tree-related functions to add rotation feature;
+
+Dec 10
+  1. Update final.m;
+  2. Compute runtime in four different functions.
