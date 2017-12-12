@@ -23,8 +23,6 @@
 
 function asf_tree_new = update_asf_tree( asf_tree, algo, hpwl, S, testbench )
 
-tic;
-
 name = fieldnames(asf_tree);
 NP = algo.NP;
 asf_tree_new = struct();
@@ -138,6 +136,10 @@ for n = 1:NP
                 index = 1;                              
             end
             right_parents(index:end) = [];
+                %   Update right-most node
+                if newtree(i, 3) == right_most
+                    right_most = newtree(i, 1);
+                end
         elseif ismember(rest(i,2), right_parents)
             %   Keep same right parent
             newtree(i, 3) = 0;
@@ -157,6 +159,10 @@ for n = 1:NP
                 index = 1;                              %   Clear all
             end
             right_parents(index:end) = [];              %   Delete succeedings from feasible right-parent list
+                %   Update right-most node
+                if newtree(i, 3) == right_most
+                    right_most = newtree(i, 1);
+                end
         else 
             %   Pick parent randomly (right)
             newtree(i, 3) = 0;                          %   Only right-parent
@@ -174,6 +180,3 @@ for n = 1:NP
     offspring = [offspring; newtree];
     asf_tree_new.(name{n}) = offspring;
 end
-
-time = toc;
-fprintf('CPU time for updating asf tree: %d s \n', time);
